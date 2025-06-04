@@ -16,4 +16,7 @@ class ExpenseTypeModel {
         id: row.get<int>("id"),
         type: row.get("typeName"),
       );
+
+  @override
+  String toString() => "$id $type\n";
 }

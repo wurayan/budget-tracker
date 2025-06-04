@@ -10,7 +10,9 @@ class DatabaseService {
     port: dotenv.getInt("DB_PORT"),
     userName: dotenv.get("DB_USER"),
     password: dotenv.get("DB_PASSWORD"),
+    databaseName: dotenv.get("DB_NAME"),
     maxConnections: 10,
+    secure: false,
   );
 
   Future<List<ExpenseModel>> getAllExpenses(
@@ -39,6 +41,7 @@ class DatabaseService {
       String query = "SELECT * FROM expensetypes";
       return (await _pool.execute(query)).resultSetToList<ExpenseTypeModel>();
     } catch (e) {
+      _pool.close();
       throw Exception(e);
     }
   }
@@ -71,7 +74,8 @@ extension IResultSetExtensions on IResultSet {
     dynamic value;
     switch (T) {
       case ExpenseTypeModel:
-        value = rows.map((e) => ExpenseTypeModel.rowToExpenseTypeModel(e)).toList();
+        value =
+            rows.map((e) => ExpenseTypeModel.rowToExpenseTypeModel(e)).toList();
         break;
       case ExpenseModel:
         value = rows.map((e) => ExpenseModel.rowToExpenseModel(e)).toList();
@@ -80,8 +84,9 @@ extension IResultSetExtensions on IResultSet {
         value = null;
         break;
     }
-    if(value == null ){
-      throw DatabaseConversionException(message: "Not a valid model type for IResultSet rows (expected $T)");
+    if (value == null) {
+      throw DatabaseConversionException(
+          message: "Not a valid model type for IResultSet rows (expected $T)");
     }
     return value as List<T>;
   }
