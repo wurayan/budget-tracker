@@ -33,8 +33,19 @@ class DatabaseService {
     }
   }
 
-  // List<ExpenseModel> expenseToList(IResultSet res) =>
-  //     res.rows.map((e) => ExpenseModel.rowToExpenseModel(e)).toList();
+  Future<BigInt> saveExpense(ExpenseModel expenseModel) async {
+    try {
+      String query =
+          "INSERT INTO expenses (id, description, value, responsible, expenseType,date) VALUES (:id,:description,:value,:responsible,:expenseType,:date)";
+      return (await _pool.execute(query, ExpenseModel.toMap(expenseModel)))
+          .lastInsertID;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  //TODO EDITAR EXPENSE
+  //TODO CRIAR E EDITAR EXPENSE TYPE
 
   Future<List<ExpenseTypeModel>> getAllExpenseTypes() async {
     try {
@@ -57,6 +68,9 @@ extension ResultSetRowExtensions on ResultSetRow {
       case double:
         value = typedColByName<double>(columnName);
         break;
+      case DateTime:
+        String? v = typedColByName<String>(columnName);
+        value = v == null ? null : DateTime.parse(v);
       default:
         value = typedColByName<String>(columnName);
     }

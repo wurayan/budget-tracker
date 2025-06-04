@@ -17,11 +17,12 @@ enum Responsible {
 }
 
 class ExpenseModel {
-  int id;
+  int? id;
   String description;
   double value;
   Responsible responsible;
   int expenseType;
+  DateTime date;
 
   ExpenseModel({
     required this.id,
@@ -29,6 +30,7 @@ class ExpenseModel {
     required this.value,
     required this.responsible,
     required this.expenseType,
+    required this.date,
   });
 
   static ExpenseModel rowToExpenseModel(ResultSetRow row) => ExpenseModel(
@@ -37,5 +39,14 @@ class ExpenseModel {
         value: row.get<double>("value"),
         responsible: Responsible.fromName(row.get("responsible")),
         expenseType: row.get<int>("type"),
+        date: row.get<DateTime>("date"),
       );
+  static Map<String, dynamic> toMap(ExpenseModel expenseModel) => {
+        "id": expenseModel.id,
+        "description": expenseModel.description,
+        "value": expenseModel.value,
+        "responsible": expenseModel.responsible.name,
+        "expenseType": expenseModel.expenseType,
+        "date": expenseModel.date,
+      };
 }
