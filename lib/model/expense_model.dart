@@ -1,9 +1,19 @@
-import 'package:budget_tracker/control/database_conversion.dart';
+import 'package:budget_tracker/control/database.dart';
 import 'package:mysql_client/mysql_client.dart';
 
 enum Responsible {
-  rayan,
-  beau,
+  //TODO AQUI PODEMOS ADICIONAR UMA COR OU ATÉ UM ICONE PARA CADA USUÁRIO E USAR PARA DIFERENCIAR NA TELA INICIAL
+  rayan("Rayan"),
+  beau("Beau");
+
+  final String name;
+  const Responsible(this.name);
+
+  static Responsible fromName(String name) => Responsible.values.firstWhere(
+        (r) => r.name == name,
+        orElse: () =>
+            throw ArgumentError("No responsible found with this name -> $name"),
+      );
 }
 
 class ExpenseModel {
@@ -25,7 +35,7 @@ class ExpenseModel {
         id: row.get<int>("id"),
         description: row.get("description"),
         value: row.get<double>("value"),
-        responsible: row.get("responsible"),
+        responsible: Responsible.fromName(row.get("responsible")),
         expenseType: row.get<int>("type"),
       );
 }
