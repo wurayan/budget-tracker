@@ -1,5 +1,4 @@
-import 'package:budget_tracker/control/database.dart';
-import 'package:budget_tracker/model/expense_type_model.dart';
+import 'package:budget_tracker/view/bottom_draggable_sheet.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,33 +7,20 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            color: Colors.blue[300],
-            width: 200,
-            height: 100,
-          ),
-          Container(
-            color: Colors.pink[200],
-            width: 200,
-            height: 100,
-          ),
-          Container(
-            color: Colors.white,
-            width: 200,
-            height: 100,
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              DatabaseService db = DatabaseService();
-              List<ExpenseTypeModel> list = await db.getAllExpenseTypes();
-              list.forEach((element) => print(element));
-            },
-            child: const Text("clica"),
-          )
-        ],
-      ),
-    );
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: Text("appbar"),
+        ),
+        // extendBodyBehindAppBar: true,
+        backgroundColor: Colors.blue[100],
+        body: Column(
+          children: [
+            Container(
+              color: Colors.brown,
+              height: 200,
+            )
+          ],
+        ),
+        bottomSheet: const BottomDraggableSheet());
   }
 }
