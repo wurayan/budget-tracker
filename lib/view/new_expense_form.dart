@@ -1,5 +1,8 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:budget_tracker/model/expense_model.dart';
+import 'package:budget_tracker/view/widgets/date_selector.dart';
+import 'package:budget_tracker/view/widgets/user_selector.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,7 +16,8 @@ class NewExpenseForm extends StatefulWidget {
 class _NewExpenseFormState extends State<NewExpenseForm> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _valueController = TextEditingController();
-  final Responsible? _selectedUser = null;
+  // Responsible? _selectedUser = Responsible.beau;
+  final TextEditingController _responsibleController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   //TODO começar com foco no valor
@@ -29,74 +33,11 @@ class _NewExpenseFormState extends State<NewExpenseForm> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(50),
-                color: Colors.white,
-              ),
-              alignment: Alignment.center,
-              height: 30,
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'HOJE',
-                  isDense: true,
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.only(bottom: 2.0),
-                ),
-                controller: _dateController,
-                style: const TextStyle(fontSize: 20),
-                textAlign: TextAlign.center,
-                textAlignVertical: TextAlignVertical.center,
-                readOnly: true,
-                onTap: () async {
-                  DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                  );
-                  if (picked != null) {
-                    _dateController.text = UtilData.obterDataDDMMAAAA(picked);
-                  }
-                },
-                onChanged: (value) => _dateController.text = value,
-                onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                onEditingComplete: () => FocusScope.of(context).unfocus(),
-                onFieldSubmitted: (value) => FocusScope.of(context).unfocus(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    _dateController.text = DateTime.now()
-                        .toString()
-                        .replaceAll("00:00:00.000", "");
-                  }
-                  return null;
-                },
-                inputFormatters: [DataInputFormatter()],
-              ),
-            ),
+            DateSelector(dateController: _dateController),
             const SizedBox(height: 16),
-            // 2. User dropdown
-            DropdownButtonFormField<Responsible>(
-              decoration: const InputDecoration(
-                labelText: 'User',
-                prefixIcon: Icon(Icons.person),
-              ),
-              items: Responsible.values
-                  .map((user) => DropdownMenuItem(
-                        value: user,
-                        child: Text(user.name),
-                      ))
-                  .toList(),
-              onChanged: (value) {
-                // Handle user selection (needs stateful widget for real use)
-              },
-            ),
+            //TODO PODEMOS MUDAR PARA DOIS BOTÕES PARA CADA USUÁRIO
+            UserSelector(responsible: _responsibleController),
             const SizedBox(height: 16),
-            // 3. Value field
             TextFormField(
               decoration: const InputDecoration(
                 labelText: 'Value',

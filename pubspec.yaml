@@ -15,6 +15,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   fl_chart: ^0.71.0
   brasil_fields: ^1.15.0
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:
