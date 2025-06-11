@@ -17,7 +17,8 @@ class _NewExpenseFormState extends State<NewExpenseForm> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _valueController = TextEditingController();
   // Responsible? _selectedUser = Responsible.beau;
-  final TextEditingController _responsibleController = TextEditingController();
+  final TextEditingController _responsibleController =
+      TextEditingController(text: Responsible.beau.name);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   //TODO começar com foco no valor
