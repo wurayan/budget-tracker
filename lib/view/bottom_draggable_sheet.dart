@@ -20,6 +20,7 @@ class _BottomDraggableSheetState extends State<BottomDraggableSheet>
   late AnimationController _controller;
   double _currentHeight = 100;
   double _expandedHeight = 500;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _BottomDraggableSheetState extends State<BottomDraggableSheet>
     return BottomSheet(
       enableDrag: true,
       animationController: _controller,
-      onClosing: () {},
+      onClosing: () => _formKey.currentState?.reset(),
       builder: (context) => GestureDetector(
         onVerticalDragUpdate: (details) {
           setState(() {
@@ -102,7 +103,9 @@ class _BottomDraggableSheetState extends State<BottomDraggableSheet>
         height: MediaQuery.of(context).size.height * 0.5,
         // padding: const EdgeInsets.all(16.0),
         color: Colors.teal,
-        child: const NewExpenseForm(),
+        child: NewExpenseForm(
+          formKey: _formKey,
+        ),
       );
   Widget _buildCollapsedHandle() =>
       const Center(child: Icon(Icons.keyboard_arrow_up));

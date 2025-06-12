@@ -46,9 +46,8 @@ class _DateSelectorState extends State<DateSelector> {
             firstDate: DateTime(2000),
             lastDate: DateTime(2100),
           );
-          if (picked != null) {
-            widget.dateController.text = UtilData.obterDataDDMMAAAA(picked);
-          }
+          widget.dateController.text =
+              UtilData.obterDataDDMMAAAA(picked ?? DateTime.now());
         },
         onChanged: (value) => widget.dateController.text = value,
         onTapOutside: (event) => FocusScope.of(context).unfocus(),
