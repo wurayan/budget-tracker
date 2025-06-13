@@ -1,3 +1,5 @@
+import 'package:budget_tracker/utils/dummy_data.dart';
+import 'package:budget_tracker/view/widgets/description_chip.dart';
 import 'package:flutter/material.dart';
 
 class DescriptionSelector extends StatefulWidget {
@@ -9,6 +11,9 @@ class DescriptionSelector extends StatefulWidget {
 }
 
 class _DescriptionSelectorState extends State<DescriptionSelector> {
+  _selectChip(String value) =>
+      setState(() => widget.descriptionController.text = value);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -41,11 +46,12 @@ class _DescriptionSelectorState extends State<DescriptionSelector> {
             width: MediaQuery.sizeOf(context).width,
             color: Colors.purpleAccent,
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: DummyData.commonDescriptions.length,
               scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => Chip(
-                label: Text("- $index"),
-              ),
+              
+              itemBuilder: (context, index) => DescriptionChip(
+                  selectChip: _selectChip,
+                  label: DummyData.commonDescriptions[index]),
             ),
           ),
         ],
