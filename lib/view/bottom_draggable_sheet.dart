@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:budget_tracker/view/new_expense_form.dart';
+import 'package:budget_tracker/view/widgets/collapsed_bottom_sheet.dart';
+import 'package:budget_tracker/view/widgets/expanded_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class BottomDraggableSheet extends StatefulWidget {
@@ -47,6 +49,10 @@ class _BottomDraggableSheetState extends State<BottomDraggableSheet>
       animationController: _controller,
       onClosing: () => _formKey.currentState?.reset(),
       builder: (context) => GestureDetector(
+        onTap: () {
+          _controller.animateTo(1.0);
+          _currentHeight = _expandedHeight;
+        },
         onVerticalDragUpdate: (details) {
           setState(() {
             _currentHeight = (_currentHeight - details.primaryDelta!)
@@ -90,23 +96,12 @@ class _BottomDraggableSheetState extends State<BottomDraggableSheet>
                 boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
               ),
               child: _controller.value > 0.1
-                  ? _buildExpandedForm()
-                  : _buildCollapsedHandle(),
+                  ? ExpandedBottomSheet(formKey: _formKey)
+                  : const CollapsedBottomSheet(),
             );
           },
         ),
       ),
     );
   }
-
-  Widget _buildExpandedForm() => Container(
-        height: MediaQuery.of(context).size.height * 0.5,
-        // padding: const EdgeInsets.all(16.0),
-        color: Colors.teal,
-        child: NewExpenseForm(
-          formKey: _formKey,
-        ),
-      );
-  Widget _buildCollapsedHandle() =>
-      const Center(child: Icon(Icons.keyboard_arrow_up));
 }
