@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:budget_tracker/view/new_expense_form.dart';
 import 'package:budget_tracker/view/widgets/collapsed_bottom_sheet.dart';
 import 'package:budget_tracker/view/widgets/expanded_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class _BottomDraggableSheetState extends State<BottomDraggableSheet>
 
   late AnimationController _controller;
   double _currentHeight = 100;
-  double _expandedHeight = 500;
+  final double _expandedHeight = 500;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

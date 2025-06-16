@@ -1,13 +1,10 @@
-import 'package:brasil_fields/brasil_fields.dart';
 import 'package:budget_tracker/model/expense_model.dart';
 import 'package:budget_tracker/view/widgets/date_selector.dart';
 import 'package:budget_tracker/view/widgets/description_selector.dart';
+import 'package:budget_tracker/view/widgets/save_expense_button.dart';
 import 'package:budget_tracker/view/widgets/user_selector.dart';
 import 'package:budget_tracker/view/widgets/value_textformfield.dart';
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class NewExpenseForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -25,8 +22,6 @@ class _NewExpenseFormState extends State<NewExpenseForm> {
       TextEditingController(text: Responsible.beau.name);
   final TextEditingController _descriptionController = TextEditingController();
 
-  //TODO começar com foco no valor
-  //colocar o usuário abaixo do valor
   //validar a data para salvar no formato correto
 
   @override
@@ -45,6 +40,8 @@ class _NewExpenseFormState extends State<NewExpenseForm> {
             UserSelector(responsible: _responsibleController),
             const SizedBox(height: 16),
             DescriptionSelector(descriptionController: _descriptionController),
+            const Expanded(child: SizedBox()),
+            SaveExpenseButton(save: () {}),
           ],
         ),
       ),
