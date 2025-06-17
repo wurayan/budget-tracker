@@ -56,6 +56,25 @@ class DatabaseService {
       throw Exception(e);
     }
   }
+
+  Future<Map<String, double>> getExpenseSum() async {
+    try {
+      // Map<String, double> sums = {};
+      String query =
+          "SELECT SUM(VALUE) as soma, responsible FROM expenses GROUP BY responsible";
+      // IResultSet res = await _pool.execute(query);
+      // for (var row in res.rows) {
+      //   sums[row.get<String>("responsible")] = row.get<double>("soma");
+      // }
+      // return sums;
+      return {
+        for (var row in (await _pool.execute(query)).rows)
+          row.get<String>("responsible"): row.get<double>("soma")
+      };
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
 
 extension ResultSetRowExtensions on ResultSetRow {

@@ -10,7 +10,7 @@ enum Responsible {
   const Responsible(this.name);
 
   static Responsible fromName(String name) => Responsible.values.firstWhere(
-        (r) => r.name == name,
+        (r) => r.name.toLowerCase() == name.toLowerCase(),
         orElse: () =>
             throw ArgumentError("No responsible found with this name -> $name"),
       );
@@ -45,7 +45,7 @@ class ExpenseModel {
         "id": expenseModel.id,
         "description": expenseModel.description,
         "value": expenseModel.value,
-        "responsible": expenseModel.responsible.name,
+        "responsible": expenseModel.responsible.name.toLowerCase(),
         "expenseType": expenseModel.expenseType,
         "date": expenseModel.date,
       };

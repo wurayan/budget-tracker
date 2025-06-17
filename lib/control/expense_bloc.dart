@@ -11,7 +11,18 @@ class ExpenseNotifier with ChangeNotifier {
       UnmodifiableListView(_expenses);
 
   List<ExpenseTypeModel> _expenseTypes = [];
-  List<ExpenseTypeModel> get expenseTypes => _expenseTypes;
+  UnmodifiableListView<ExpenseTypeModel> get expenseTypes =>
+      UnmodifiableListView(_expenseTypes);
+
+  Map<String, double> _sums = {};
+  UnmodifiableMapView<String, double> get sums =>
+      UnmodifiableMapView<String, double>(_sums);
+
+  final Map<String, double> _monthlyExpenses = {
+    for (var e in Responsible.values) e.name: 0.0
+  };
+  UnmodifiableMapView<String, double> get monthlyExpenses =>
+      UnmodifiableMapView(_monthlyExpenses);
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -28,6 +39,8 @@ class ExpenseNotifier with ChangeNotifier {
     try {
       await _getExpenseTypes();
       await _getExpenses();
+      await _getSums();
+      _getMonthlyTotal();
     } catch (e) {
       throw Exception(e);
     }
@@ -43,7 +56,33 @@ class ExpenseNotifier with ChangeNotifier {
     _expenseTypes = await _db.getAllExpenseTypes();
   }
 
+  Future<void> _getSums() async {
+    _sums = await _db.getExpenseSum();
+  }
+
+  void _getMonthlyTotal() {
+    for (var expense in _expenses) {
+      _monthlyExpenses[expense.responsible.name] =
+          (_monthlyExpenses[expense.responsible.name] ?? 0) + expense.value;
+    }
+  }
+
+  Future<void> updateExpenses(ExpenseModel expenseModel) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      await _db.saveExpense(expenseModel);
+      _expenses.add(expenseModel);
+      _getMonthlyTotal();
+      _sums[expenseModel.responsible.name] =
+          (_sums[expenseModel.responsible.name] ?? 0) + expenseModel.value;
+    } catch (e) {
+      throw Exception(e);
+    }
+    _isLoading = false;
+    notifyListeners();
+  }
+
   //TODO FILTER EXPENSES BY RESPONSIBLE AND MONTH
   //TODO INSERT EXPENSE AND RELOAD
-  
 }
