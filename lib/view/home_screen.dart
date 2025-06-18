@@ -1,4 +1,5 @@
 import 'package:budget_tracker/view/bottom_draggable_sheet.dart';
+import 'package:budget_tracker/view/expense_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,18 +10,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text("appbar"),
+          title: const Text("appbar"),
         ),
         // extendBodyBehindAppBar: true,
         backgroundColor: Colors.blue[100],
-        body: Column(
-          children: [
-            Container(
-              color: Colors.brown,
-              height: 200,
-            )
-          ],
-        ),
+        body: const ExpenseScreen(),
         bottomSheet: const BottomDraggableSheet());
   }
 }
