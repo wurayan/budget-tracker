@@ -7,6 +7,7 @@ enum Responsible {
   beau("Beau");
 
   final String name;
+  String lowerName() => name.toLowerCase();
   const Responsible(this.name);
 
   static Responsible fromName(String name) => Responsible.values.firstWhere(
@@ -38,7 +39,7 @@ class ExpenseModel {
         description: row.get("description"),
         value: row.get<double>("value"),
         responsible: Responsible.fromName(row.get("responsible")),
-        expenseType: row.get<int>("type"),
+        expenseType: row.get<int>("expenseType"),
         date: row.get<DateTime>("date"),
       );
   static Map<String, dynamic> toMap(ExpenseModel expenseModel) => {

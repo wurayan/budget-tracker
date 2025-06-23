@@ -19,7 +19,7 @@ class ExpenseNotifier with ChangeNotifier {
       UnmodifiableMapView<String, double>(_sums);
 
   final Map<String, double> _monthlyExpenses = {
-    for (var e in Responsible.values) e.name: 0.0
+    for (var e in Responsible.values) e.name.toLowerCase(): 0.0
   };
   UnmodifiableMapView<String, double> get monthlyExpenses =>
       UnmodifiableMapView(_monthlyExpenses);
@@ -38,9 +38,13 @@ class ExpenseNotifier with ChangeNotifier {
     notifyListeners();
     try {
       await _getExpenseTypes();
+      print("Got expense types $_expenseTypes");
       await _getExpenses();
+      print("Got Expenses $_expenses");
       await _getSums();
+      print("Got Sums $_sums");
       _getMonthlyTotal();
+      print("Got monthly sums $_monthlyExpenses");
     } catch (e) {
       throw Exception(e);
     }
@@ -62,8 +66,8 @@ class ExpenseNotifier with ChangeNotifier {
 
   void _getMonthlyTotal() {
     for (var expense in _expenses) {
-      _monthlyExpenses[expense.responsible.name] =
-          (_monthlyExpenses[expense.responsible.name] ?? 0) + expense.value;
+      _monthlyExpenses[expense.responsible.lowerName()] =
+          (_monthlyExpenses[expense.responsible.lowerName()] ?? 0) + expense.value;
     }
   }
 

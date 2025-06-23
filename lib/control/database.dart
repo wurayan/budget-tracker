@@ -85,7 +85,7 @@ extension ResultSetRowExtensions on ResultSetRow {
         value = typedColByName<int>(columnName);
         break;
       case double:
-        value = typedColByName<double>(columnName);
+        value = double.parse(colByName(columnName)??"0");
         break;
       case DateTime:
         String? v = typedColByName<String>(columnName);
@@ -106,11 +106,11 @@ extension IResultSetExtensions on IResultSet {
   List<T> resultSetToList<T>() {
     dynamic value;
     switch (T) {
-      case ExpenseTypeModel:
+      case const (ExpenseTypeModel):
         value =
             rows.map((e) => ExpenseTypeModel.rowToExpenseTypeModel(e)).toList();
         break;
-      case ExpenseModel:
+      case const (ExpenseModel):
         value = rows.map((e) => ExpenseModel.rowToExpenseModel(e)).toList();
         break;
       default:
