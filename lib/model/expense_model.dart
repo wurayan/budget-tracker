@@ -3,18 +3,22 @@ import 'package:mysql_client/mysql_client.dart';
 
 enum Responsible {
   //TODO AQUI PODEMOS ADICIONAR UMA COR OU ATÉ UM ICONE PARA CADA USUÁRIO E USAR PARA DIFERENCIAR NA TELA INICIAL
-  rayan("Rayan"),
-  beau("Beau");
+  rayan(),
+  beau();
 
-  final String name;
-  String lowerName() => name.toLowerCase();
-  const Responsible(this.name);
+  const Responsible();
 
   static Responsible fromName(String name) => Responsible.values.firstWhere(
         (r) => r.name.toLowerCase() == name.toLowerCase(),
         orElse: () =>
             throw ArgumentError("No responsible found with this name -> $name"),
       );
+}
+
+extension ResponsibleX on Responsible {
+  // String get lowerName => name.toLowerCase();
+  String get displayName =>
+      "${name[0].toUpperCase()}${name.substring(1).toLowerCase()}";
 }
 
 class ExpenseModel {

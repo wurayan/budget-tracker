@@ -67,14 +67,17 @@ class ExpenseNotifier with ChangeNotifier {
 
   void _getMonthlyTotal() {
     for (var expense in _expenses) {
-      _monthlyExpenses[expense.responsible.lowerName()] =
-          (_monthlyExpenses[expense.responsible.lowerName()] ?? 0) +
+      _monthlyExpenses[expense.responsible.name] =
+          (_monthlyExpenses[expense.responsible.name] ?? 0) +
               expense.value;
     }
   }
 
   Future<void> updateExpenses(ExpenseModel expenseModel) async {
     print("UPDATING");
+    print("sums before");
+    print(_sums);
+    print(_monthlyExpenses);
     _isLoading = true;
     notifyListeners();
     // await Future.delayed(Duration(seconds: 10));
@@ -90,6 +93,9 @@ class ExpenseNotifier with ChangeNotifier {
     }
     _isLoading = false;
     notifyListeners();
+    print("sums after");
+    print(_sums);
+    print(_monthlyExpenses);
   }
 
   // Future<void> newExpense(ExpenseModel expenseModel) async {

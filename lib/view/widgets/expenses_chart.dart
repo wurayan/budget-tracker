@@ -44,7 +44,7 @@ class ExpensesChart extends StatelessWidget {
       sideTitles: SideTitles(
         showTitles: true,
         getTitlesWidget: (value, meta) {
-          return Text(Responsible.values[value.toInt()].name);
+          return Text(Responsible.values[value.toInt()].displayName);
         },
       ),
     ),
@@ -61,18 +61,18 @@ class ExpensesChart extends StatelessWidget {
             barsSpace: 1,
             barRods: [
               BarChartRodData(
-                toY: bloc.sums[e.value.lowerName()] ?? 0.0,
+                toY: bloc.sums[e.value.name] ?? 0.0,
                 width: width,
                 borderRadius: BorderRadius.zero,
                 rodStackItems: [
                   BarChartRodStackItem(
                     0.0,
-                    bloc.monthlyExpenses[e.value.lowerName()] ?? 0.0,
+                    bloc.monthlyExpenses[e.value.name] ?? 0.0,
                     Colors.red,
                   ),
                   BarChartRodStackItem(
-                    bloc.monthlyExpenses[e.value.lowerName()] ?? 0.0,
-                    bloc.sums[e.value.lowerName()] ?? 0.0,
+                    bloc.monthlyExpenses[e.value.name] ?? 0.0,
+                    bloc.sums[e.value.name] ?? 0.0,
                     Colors.blue,
                   )
                 ],
