@@ -1,3 +1,5 @@
+import 'package:brasil_fields/brasil_fields.dart';
+import 'package:budget_tracker/control/expense_bloc.dart';
 import 'package:budget_tracker/model/expense_model.dart';
 import 'package:budget_tracker/view/widgets/date_selector.dart';
 import 'package:budget_tracker/view/widgets/description_selector.dart';
@@ -5,17 +7,21 @@ import 'package:budget_tracker/view/widgets/save_expense_button.dart';
 import 'package:budget_tracker/view/widgets/user_selector.dart';
 import 'package:budget_tracker/view/widgets/value_textformfield.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NewExpenseForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
-  const NewExpenseForm({super.key, required this.formKey});
+  final VoidCallback collapseForm;
+  const NewExpenseForm(
+      {super.key, required this.formKey, required this.collapseForm});
 
   @override
   State<NewExpenseForm> createState() => _NewExpenseFormState();
 }
 
 class _NewExpenseFormState extends State<NewExpenseForm> {
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController =
+      TextEditingController(text: UtilData.obterDataDDMMAAAA(DateTime.now()));
   final TextEditingController _valueController = TextEditingController();
   // Responsible? _selectedUser = Responsible.beau;
   final TextEditingController _responsibleController =
@@ -41,7 +47,27 @@ class _NewExpenseFormState extends State<NewExpenseForm> {
             const SizedBox(height: 16),
             DescriptionSelector(descriptionController: _descriptionController),
             const Expanded(child: SizedBox()),
-            SaveExpenseButton(save: () {}),
+            SaveExpenseButton(
+              save: () async {
+                await Provider.of<ExpenseNotifier>(context, listen: false)
+                    .updateExpenses(
+                  ExpenseModel(
+                    id: null,
+                    description: _descriptionController.text,
+                    value: double.tryParse(_valueController.text
+                            .replaceAll('R\$', '')
+                            .replaceAll('.', '')
+                            .replaceAll(',', '.')) ??
+                        0.0,
+                    responsible:
+                        Responsible.fromName(_responsibleController.text),
+                    expenseType: 1,
+                    date: UtilData.obterDateTime(_dateController.text),
+                  ),
+                );
+                widget.collapseForm();
+              },
+            ),
           ],
         ),
       ),

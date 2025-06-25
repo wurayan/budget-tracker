@@ -23,7 +23,6 @@ class _ResponsibleButtonState extends State<ResponsibleButton> {
     return OutlinedButton(
       onPressed: () {
         widget.changeResponsible(widget.responsible.name);
-        print(widget.isActive);
       },
       style: OutlinedButton.styleFrom(
         alignment: Alignment.center,

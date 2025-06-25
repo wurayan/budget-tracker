@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:budget_tracker/control/expense_bloc.dart';
 import 'package:budget_tracker/view/widgets/collapsed_bottom_sheet.dart';
 import 'package:budget_tracker/view/widgets/expanded_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BottomDraggableSheet extends StatefulWidget {
   const BottomDraggableSheet({super.key});
@@ -13,11 +15,6 @@ class BottomDraggableSheet extends StatefulWidget {
 
 class _BottomDraggableSheetState extends State<BottomDraggableSheet>
     with SingleTickerProviderStateMixin {
-  // final _controller = PersistentBottomSheetController();
-  // Controls sheet state
-  // bool _isExpanded = false;
-  // updateExpanded() => setState(() => _isExpanded = !_isExpanded);
-
   late AnimationController _controller;
   double _currentHeight = 100;
   final double _expandedHeight = 500;
@@ -68,7 +65,7 @@ class _BottomDraggableSheetState extends State<BottomDraggableSheet>
           } else if (details.primaryVelocity! > 500) {
             // Swipe down fast
             _controller.animateTo(0.0);
-            _currentHeight = 100;
+            _currentHeight = initialHeight;
           } else {
             // Snap to nearest position
             if (_controller.value > 0.5) {
@@ -94,9 +91,15 @@ class _BottomDraggableSheetState extends State<BottomDraggableSheet>
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
               ),
-              child: _controller.value > 0.1
-                  ? ExpandedBottomSheet(formKey: _formKey)
-                  : const CollapsedBottomSheet(),
+              child: _controller.value < 0.1
+                  ? const CollapsedBottomSheet()
+                  : ExpandedBottomSheet(
+                      formKey: _formKey,
+                      collapseForm: () {
+                        _controller.animateTo(0.0);
+                        _currentHeight = initialHeight;
+                      },
+                    ),
             );
           },
         ),

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class ExpandedBottomSheet extends StatelessWidget {
   final GlobalKey<FormState> formKey;
-  const ExpandedBottomSheet({super.key, required this.formKey});
+  final VoidCallback collapseForm;
+  const ExpandedBottomSheet({super.key, required this.formKey, required this.collapseForm});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +14,7 @@ class ExpandedBottomSheet extends StatelessWidget {
       color: Colors.teal,
       child: NewExpenseForm(
         formKey: formKey,
+        collapseForm: collapseForm,
       ),
     );
   }

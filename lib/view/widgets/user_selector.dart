@@ -1,6 +1,5 @@
 import 'package:budget_tracker/model/expense_model.dart';
 import 'package:budget_tracker/view/widgets/responsible_button.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 class UserSelector extends StatefulWidget {
@@ -12,14 +11,9 @@ class UserSelector extends StatefulWidget {
 }
 
 class _UserSelectorState extends State<UserSelector> {
-  changeResponsible(String value) {
-    widget.responsible.text = value;
-    // _isActive = true;
-    setState(() {});
-    print(widget.responsible.text);
-  }
+  void changeResponsible(String value) =>
+      setState(() => widget.responsible.text = value);
 
-  // bool _isActive = false;
   bool _isActive(Responsible responsible) =>
       widget.responsible.text == responsible.name;
 

@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:budget_tracker/control/database.dart';
 import 'package:budget_tracker/model/expense_model.dart';
@@ -67,17 +68,21 @@ class ExpenseNotifier with ChangeNotifier {
   void _getMonthlyTotal() {
     for (var expense in _expenses) {
       _monthlyExpenses[expense.responsible.lowerName()] =
-          (_monthlyExpenses[expense.responsible.lowerName()] ?? 0) + expense.value;
+          (_monthlyExpenses[expense.responsible.lowerName()] ?? 0) +
+              expense.value;
     }
   }
 
   Future<void> updateExpenses(ExpenseModel expenseModel) async {
+    print("UPDATING");
     _isLoading = true;
     notifyListeners();
+    // await Future.delayed(Duration(seconds: 10));
     try {
       await _db.saveExpense(expenseModel);
       _expenses.add(expenseModel);
-      _getMonthlyTotal();
+      _monthlyExpenses[expenseModel.responsible.name] =
+          (_sums[expenseModel.responsible.name] ?? 0) + expenseModel.value;
       _sums[expenseModel.responsible.name] =
           (_sums[expenseModel.responsible.name] ?? 0) + expenseModel.value;
     } catch (e) {
@@ -86,6 +91,11 @@ class ExpenseNotifier with ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  // Future<void> newExpense(ExpenseModel expenseModel) async {
+  //   await _db.saveExpense(expenseModel);
+  //   updateExpenses(expenseModel);
+  // }
 
   //TODO FILTER EXPENSES BY RESPONSIBLE AND MONTH
   //TODO INSERT EXPENSE AND RELOAD
