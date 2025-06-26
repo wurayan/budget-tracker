@@ -1,10 +1,7 @@
 import 'dart:ui';
-
-import 'package:budget_tracker/control/expense_bloc.dart';
 import 'package:budget_tracker/view/widgets/collapsed_bottom_sheet.dart';
 import 'package:budget_tracker/view/widgets/expanded_bottom_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class BottomDraggableSheet extends StatefulWidget {
   const BottomDraggableSheet({super.key});
