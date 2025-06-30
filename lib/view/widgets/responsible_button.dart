@@ -26,7 +26,7 @@ class _ResponsibleButtonState extends State<ResponsibleButton> {
       },
       style: OutlinedButton.styleFrom(
         alignment: Alignment.center,
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Colors.grey[50],
         padding: EdgeInsets.zero,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
@@ -34,11 +34,14 @@ class _ResponsibleButtonState extends State<ResponsibleButton> {
           ),
         ),
         side: widget.isActive
-            ? const BorderSide(
-                width: 5,
-                color: Colors.grey,
+            ? BorderSide(
+                width: 4,
+                color: Colors.blueGrey[800]!,
               )
-            : null,
+            : BorderSide(
+                width: 1,
+                color: Colors.blueGrey[800]!,
+              ),
       ),
       child: Container(
         height: size.height * 0.08,
@@ -46,8 +49,8 @@ class _ResponsibleButtonState extends State<ResponsibleButton> {
         alignment: Alignment.center,
         // clipBehavior: Clip.hardEdge,
         child: Text(
-          widget.responsible.name,
-          style: const TextStyle(fontSize: 20),
+          widget.responsible.displayName,
+          style: const TextStyle(fontSize: 20, color: Colors.black),
         ),
       ),
     );

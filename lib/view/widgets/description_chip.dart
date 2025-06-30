@@ -13,12 +13,16 @@ class DescriptionChip extends StatelessWidget {
       child: GestureDetector(
         onTap: () => selectChip(label),
         child: Chip(
-          backgroundColor: Colors.grey[200],
+          backgroundColor: Colors.grey[300],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
+          visualDensity: VisualDensity(vertical: -3),
           side: BorderSide.none,
-          label: Text(label),
+          label: Text(
+            label,
+            style: TextStyle(color: Colors.black, fontSize: 16),
+          ),
         ),
       ),
     );

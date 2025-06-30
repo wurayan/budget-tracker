@@ -15,8 +15,10 @@ class ExpensesChart extends StatelessWidget {
       builder: (context, bloc, child) => BarChart(
         BarChartData(
           alignment: BarChartAlignment.spaceAround,
-          maxY: bloc.sums.values.fold<double>(0, max) * 1.2,
-          barTouchData: BarTouchData(enabled: false),
+          maxY: bloc.sums.values.fold<double>(0, max) * 1.05,
+          barTouchData: BarTouchData(
+            enabled: false,
+          ),
           titlesData: _flTitlesData,
           borderData: FlBorderData(show: false),
           barGroups:
@@ -43,8 +45,15 @@ class ExpensesChart extends StatelessWidget {
     bottomTitles: AxisTitles(
       sideTitles: SideTitles(
         showTitles: true,
+        reservedSize: 30,
         getTitlesWidget: (value, meta) {
-          return Text(Responsible.values[value.toInt()].displayName);
+          return Text(
+            Responsible.values[value.toInt()].displayName,
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+            ),
+          );
         },
       ),
     ),
@@ -58,23 +67,24 @@ class ExpensesChart extends StatelessWidget {
           (e) => BarChartGroupData(
             x: e.key,
             groupVertically: true,
-            barsSpace: 1,
+            barsSpace: 0,
+            // showingTooltipIndicators: [0, 1],
             barRods: [
               BarChartRodData(
                 toY: bloc.sums[e.value.name] ?? 0.0,
                 width: width,
-                borderRadius: BorderRadius.zero,
+                borderRadius: BorderRadius.circular(25),
                 rodStackItems: [
                   BarChartRodStackItem(
-                    0.0,
-                    bloc.monthlyExpenses[e.value.name] ?? 0.0,
-                    Colors.red,
-                  ),
+                      0.0,
+                      bloc.monthlyExpenses[e.value.name] ?? 0.0,
+                      // Colors.red,
+                      e.value.color),
                   BarChartRodStackItem(
                     bloc.monthlyExpenses[e.value.name] ?? 0.0,
                     bloc.sums[e.value.name] ?? 0.0,
-                    Colors.blue,
-                  )
+                    e.value.bgColor,
+                  ),
                 ],
               ),
             ],

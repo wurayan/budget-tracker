@@ -20,7 +20,10 @@ class CollapsedBottomSheet extends StatelessWidget {
           alignment: Alignment.center,
           child: const Text(
             "HOJE",
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
           ),
         ),
         const Icon(Icons.keyboard_arrow_up)

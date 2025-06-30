@@ -1,11 +1,12 @@
 import 'package:budget_tracker/control/database.dart';
+import 'package:flutter/material.dart';
 import 'package:mysql_client/mysql_client.dart';
 
 enum Responsible {
-  //TODO AQUI PODEMOS ADICIONAR UMA COR OU ATÉ UM ICONE PARA CADA USUÁRIO E USAR PARA DIFERENCIAR NA TELA INICIAL
   rayan(),
   beau();
 
+  // final Color color;
   const Responsible();
 
   static Responsible fromName(String name) => Responsible.values.firstWhere(
@@ -16,9 +17,12 @@ enum Responsible {
 }
 
 extension ResponsibleX on Responsible {
-  // String get lowerName => name.toLowerCase();
   String get displayName =>
       "${name[0].toUpperCase()}${name.substring(1).toLowerCase()}";
+  Color get color =>
+      this == Responsible.rayan ? Colors.green[400]! : Colors.purple[400]!;
+  Color get bgColor =>
+      this == Responsible.rayan ? Colors.green[200]! : Colors.purple[200]!;
 }
 
 class ExpenseModel {

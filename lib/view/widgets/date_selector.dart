@@ -18,7 +18,7 @@ class _DateSelectorState extends State<DateSelector> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
+        border: Border.all(color: Colors.blueGrey[800]!, width: 1),
         borderRadius: BorderRadius.circular(50),
         color: Colors.white,
       ),
@@ -35,7 +35,7 @@ class _DateSelectorState extends State<DateSelector> {
           contentPadding: EdgeInsets.only(bottom: 2.0),
         ),
         controller: widget.dateController,
-        style: const TextStyle(fontSize: 20),
+        style: const TextStyle(fontSize: 20, color: Colors.black),
         textAlign: TextAlign.center,
         textAlignVertical: TextAlignVertical.center,
         readOnly: true,

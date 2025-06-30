@@ -11,7 +11,7 @@ class DescriptionSelector extends StatefulWidget {
 }
 
 class _DescriptionSelectorState extends State<DescriptionSelector> {
-  _selectChip(String value) =>
+  void _selectChip(String value) =>
       setState(() => widget.descriptionController.text = value);
 
   @override
@@ -23,13 +23,29 @@ class _DescriptionSelectorState extends State<DescriptionSelector> {
           Container(
             height: MediaQuery.sizeOf(context).height * 0.05,
             width: MediaQuery.sizeOf(context).width,
-            color: Colors.amber,
+            // color: Colors.amber,
+            decoration: BoxDecoration(
+              border: Border.symmetric(
+                horizontal: BorderSide(
+                  width: 1,
+                  color: Colors.blueGrey[600]!,
+                ),
+              ),
+            ),
             child: Padding(
-              padding: const EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: TextFormField(
                 controller: widget.descriptionController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Add descrição...",
+                  hintStyle: TextStyle(
+                    color: Colors.blueGrey[600]!,
+                  ),
+                  border: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
                 ),
                 expands: true,
                 minLines: null,
@@ -41,14 +57,13 @@ class _DescriptionSelectorState extends State<DescriptionSelector> {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: MediaQuery.sizeOf(context).height * 0.05,
             width: MediaQuery.sizeOf(context).width,
-            color: Colors.purpleAccent,
+            // color: Colors.purpleAccent,
             child: ListView.builder(
               itemCount: DummyData.commonDescriptions.length,
               scrollDirection: Axis.horizontal,
-              
               itemBuilder: (context, index) => DescriptionChip(
                   selectChip: _selectChip,
                   label: DummyData.commonDescriptions[index]),

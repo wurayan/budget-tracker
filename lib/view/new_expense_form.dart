@@ -32,44 +32,43 @@ class _NewExpenseFormState extends State<NewExpenseForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: widget.formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            DateSelector(dateController: _dateController),
-            const SizedBox(height: 16),
-            ValueTextFormField(valueController: _valueController),
-            const SizedBox(height: 16),
-            UserSelector(responsible: _responsibleController),
-            const SizedBox(height: 16),
-            DescriptionSelector(descriptionController: _descriptionController),
-            const Expanded(child: SizedBox()),
-            SaveExpenseButton(
-              save: () async {
-                await Provider.of<ExpenseNotifier>(context, listen: false)
-                    .updateExpenses(
-                  ExpenseModel(
-                    id: null,
-                    description: _descriptionController.text,
-                    value: double.tryParse(_valueController.text
-                            .replaceAll('R\$', '')
-                            .replaceAll('.', '')
-                            .replaceAll(',', '.')) ??
-                        0.0,
-                    responsible:
-                        Responsible.fromName(_responsibleController.text),
-                    expenseType: 1,
-                    date: UtilData.obterDateTime(_dateController.text),
-                  ),
-                );
-                widget.collapseForm();
-              },
-            ),
-          ],
-        ),
+    return Form(
+      key: widget.formKey,
+      child: Column(
+        // mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 16),
+          DateSelector(dateController: _dateController),
+          Divider(color: Colors.blueGrey[800],),
+          const SizedBox(height: 16),
+          ValueTextFormField(valueController: _valueController),
+          const SizedBox(height: 16),
+          UserSelector(responsible: _responsibleController),
+          const SizedBox(height: 16),
+          DescriptionSelector(descriptionController: _descriptionController),
+          const Expanded(child: SizedBox()),
+          SaveExpenseButton(
+            save: () async {
+              await Provider.of<ExpenseNotifier>(context, listen: false)
+                  .updateExpenses(
+                ExpenseModel(
+                  id: null,
+                  description: _descriptionController.text,
+                  value: double.tryParse(_valueController.text
+                          .replaceAll('R\$', '')
+                          .replaceAll('.', '')
+                          .replaceAll(',', '.')) ??
+                      0.0,
+                  responsible:
+                      Responsible.fromName(_responsibleController.text),
+                  expenseType: 1,
+                  date: UtilData.obterDateTime(_dateController.text),
+                ),
+              );
+              widget.collapseForm();
+            },
+          ),
+        ],
       ),
     );
   }

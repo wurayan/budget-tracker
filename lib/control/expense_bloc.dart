@@ -71,19 +71,26 @@ class ExpenseNotifier with ChangeNotifier {
     notifyListeners();
     // await Future.delayed(Duration(seconds: 10));
     try {
-      // await _db.saveExpense(expenseModel);
-      // _expenses.add(expenseModel);
-      _monthlyExpenses[expenseModel.responsible.name] =
-          (_monthlyExpenses[expenseModel.responsible.name] ?? 0) +
-              expenseModel.value;
-      _sums[expenseModel.responsible.name] =
-          (_sums[expenseModel.responsible.name] ?? 0) + expenseModel.value;
+      await _db.saveExpense(expenseModel);
+      _expenses.add(expenseModel);
+      // double newExpense = double.parse(expenseModel.value.toStringAsFixed(2));
+      _updateMap(_monthlyExpenses, expenseModel);
+      _updateMap(_sums, expenseModel);
+      // _monthlyExpenses[expenseModel.responsible.name] =
+      //     (_monthlyExpenses[expenseModel.responsible.name] ?? 0) + newExpense;
+      // _sums[expenseModel.responsible.name] =
+      //     (_sums[expenseModel.responsible.name] ?? 0) + newExpense;
     } catch (e) {
       throw Exception(e);
     }
     _isLoading = false;
     notifyListeners();
   }
+
+  void _updateMap(Map<String, double> map, ExpenseModel expenseModel) =>
+      map[expenseModel.responsible.name] =
+          (map[expenseModel.responsible.name] ?? 0.0) +
+              double.parse(expenseModel.value.toStringAsFixed(2));
 
   //TODO FILTER EXPENSES BY RESPONSIBLE AND MONTH
 }
