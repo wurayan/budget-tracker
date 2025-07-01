@@ -75,6 +75,10 @@ class DatabaseService {
       throw Exception(e);
     }
   }
+
+  // Future<void> saveLog(LogModel logmodel) async {
+
+  // }
 }
 
 extension ResultSetRowExtensions on ResultSetRow {
@@ -85,7 +89,7 @@ extension ResultSetRowExtensions on ResultSetRow {
         value = typedColByName<int>(columnName);
         break;
       case double:
-        value = double.parse(colByName(columnName)??"0");
+        value = double.parse(colByName(columnName) ?? "0");
         break;
       case DateTime:
         String? v = typedColByName<String>(columnName);

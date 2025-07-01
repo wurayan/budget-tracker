@@ -28,6 +28,8 @@ class ExpenseNotifier with ChangeNotifier {
 
   final DatabaseService _db = DatabaseService();
 
+  String? error;
+
   ExpenseNotifier() {
     _loadExpenses();
   }
@@ -40,7 +42,8 @@ class ExpenseNotifier with ChangeNotifier {
       await _getExpenses();
       await _getSums();
       _getMonthlyTotal();
-    } catch (e) {
+    } catch (e, s) {
+      error = "$e\n$s";
       throw Exception(e);
     }
     _isLoading = false;
